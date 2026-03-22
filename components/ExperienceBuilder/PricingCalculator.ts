@@ -29,7 +29,7 @@ export const GROUP_SIZES: GroupSize[] = [
     label: '3–6 Guests',
     min: 3,
     max: 6,
-    vehicleType: 'Luxury SUV',
+    vehicleType: 'Mazda CX-90 (Luxury SUV)',
     basePrice: 995,
     multiplier: 1.2,
   },
@@ -62,9 +62,9 @@ export const AVAILABLE_ACTIVITIES: Activity[] = [
   { id: 'wayside-chapel', icon: '⛪', title: "Wayside Chapel (World's Smallest Church)", duration: 15, price: 0, category: 'Morning' },
 
   // Niagara main events
-  { id: 'hornblower', icon: '🚢', title: 'Hornblower Cruise', duration: 60, price: 85, category: 'Niagara' },
+  { id: 'hornblower', icon: '🚢', title: 'Niagara City Cruises (Skip-the-Line VIP)', duration: 60, price: 85, category: 'Niagara' },
   { id: 'journey-behind-falls', icon: '💧', title: 'Journey Behind the Falls', duration: 45, price: 65, category: 'Niagara' },
-  { id: 'skylon-tower', icon: '🗼', title: 'Skylon Tower Observation', duration: 45, price: 55, category: 'Niagara' },
+  { id: 'skylon-tower', icon: '🗼', title: 'Skylon Tower Observation & Dining', duration: 45, price: 55, category: 'Niagara' },
 
   // Scenic
   { id: 'floral-clock', icon: '🌸', title: 'Floral Clock & Whirlpool Rapids', duration: 30, price: 0, category: 'Scenic' },
@@ -79,13 +79,14 @@ export const AVAILABLE_ACTIVITIES: Activity[] = [
   // Wine & vineyard
   { id: 'notl-wine', icon: '🍷', title: 'NOTL Winery Icewine Tasting', duration: 90, price: 120, category: 'Wine' },
   { id: 'private-cellar-tour', icon: '🍾', title: 'Private Cellar Tour', duration: 60, price: 95, category: 'Wine' },
-  { id: 'peller-lunch', icon: '🍽️', title: 'Lunch at Peller Estates', duration: 90, price: 110, category: 'Wine' },
+  { id: 'peller-lunch', icon: '🍽️', title: 'Vineyard Lunch at Peller Estates', duration: 90, price: 110, category: 'Wine' },
   { id: 'vineyard-photography', icon: '📸', title: 'Vineyard Photography Session', duration: 45, price: 65, category: 'Wine' },
 
   // Toronto
   { id: 'cn-tower', icon: '🏙️', title: 'CN Tower EdgeWalk', duration: 90, price: 195, category: 'Toronto' },
-  { id: 'casa-loma', icon: '🏰', title: 'Casa Loma Castle', duration: 75, price: 40, category: 'Toronto' },
+  { id: 'casa-loma', icon: '🏰', title: 'Casa Loma Castle (Skip-the-Line)', duration: 75, price: 40, category: 'Toronto' },
   { id: 'distillery', icon: '🏛️', title: 'Distillery District', duration: 60, price: 0, category: 'Toronto' },
+  { id: 'kensington-market', icon: '🏘️', title: 'Kensington Market Cultural Walk', duration: 60, price: 0, category: 'Toronto' },
 
   // Cultural
   { id: 'maple-tasting', icon: '🍁', title: 'Maple Syrup Farm Visit', duration: 60, price: 55, category: 'Cultural' },
@@ -97,43 +98,37 @@ export const AVAILABLE_ACTIVITIES: Activity[] = [
   { id: 'fireworks-falls', icon: '🎆', title: 'Fireworks over the Falls', duration: 45, price: 0, category: 'Evening' },
 ];
 
-// Legacy preset kept for backward compatibility
-export const PRESET_ITINERARY: Activity[] = [
-  AVAILABLE_ACTIVITIES.find((a) => a.id === 'hornblower')!,
-  AVAILABLE_ACTIVITIES.find((a) => a.id === 'journey-behind-falls')!,
-  AVAILABLE_ACTIVITIES.find((a) => a.id === 'floral-clock')!,
-  AVAILABLE_ACTIVITIES.find((a) => a.id === 'notl-wine')!,
-  AVAILABLE_ACTIVITIES.find((a) => a.id === 'skylon-tower')!,
-  AVAILABLE_ACTIVITIES.find((a) => a.id === 'illumination')!,
-];
-
-/** The Signature Day — full Niagara experience */
-export const PRESET_SIGNATURE: Activity[] = [
+/** Niagara Signature — 8 AM pickup, Falls, vineyard lunch, illumination */
+export const PRESET_NIAGARA: Activity[] = [
   AVAILABLE_ACTIVITIES.find((a) => a.id === 'doorstep-pickup')!,
+  AVAILABLE_ACTIVITIES.find((a) => a.id === 'floral-clock')!,
+  AVAILABLE_ACTIVITIES.find((a) => a.id === 'peller-lunch')!,
   AVAILABLE_ACTIVITIES.find((a) => a.id === 'hornblower')!,
   AVAILABLE_ACTIVITIES.find((a) => a.id === 'journey-behind-falls')!,
-  AVAILABLE_ACTIVITIES.find((a) => a.id === 'floral-clock')!,
-  AVAILABLE_ACTIVITIES.find((a) => a.id === 'notl-wine')!,
   AVAILABLE_ACTIVITIES.find((a) => a.id === 'illumination')!,
 ];
 
-/** The Romantic Evening — wine, views & light show */
-export const PRESET_ROMANTIC: Activity[] = [
-  AVAILABLE_ACTIVITIES.find((a) => a.id === 'gourmet-coffee')!,
+/** Toronto Essential — city highlights in 4 hours */
+export const PRESET_TORONTO: Activity[] = [
+  AVAILABLE_ACTIVITIES.find((a) => a.id === 'doorstep-pickup')!,
+  AVAILABLE_ACTIVITIES.find((a) => a.id === 'cn-tower')!,
+  AVAILABLE_ACTIVITIES.find((a) => a.id === 'distillery')!,
+  AVAILABLE_ACTIVITIES.find((a) => a.id === 'kensington-market')!,
+];
+
+/** Evening Illumination — NOTL, dinner, control the Falls */
+export const PRESET_EVENING: Activity[] = [
+  AVAILABLE_ACTIVITIES.find((a) => a.id === 'doorstep-pickup')!,
+  AVAILABLE_ACTIVITIES.find((a) => a.id === 'notl-wine')!,
   AVAILABLE_ACTIVITIES.find((a) => a.id === 'skylon-tower')!,
-  AVAILABLE_ACTIVITIES.find((a) => a.id === 'private-cellar-tour')!,
-  AVAILABLE_ACTIVITIES.find((a) => a.id === 'vineyard-photography')!,
   AVAILABLE_ACTIVITIES.find((a) => a.id === 'illumination-tower')!,
-  AVAILABLE_ACTIVITIES.find((a) => a.id === 'fireworks-falls')!,
 ];
 
-/** The Quick Escape — highlights in 4 stops */
-export const PRESET_QUICK: Activity[] = [
-  AVAILABLE_ACTIVITIES.find((a) => a.id === 'doorstep-pickup')!,
-  AVAILABLE_ACTIVITIES.find((a) => a.id === 'hornblower')!,
-  AVAILABLE_ACTIVITIES.find((a) => a.id === 'journey-behind-falls')!,
-  AVAILABLE_ACTIVITIES.find((a) => a.id === 'floral-clock')!,
-];
+// Legacy alias kept for any external references
+export const PRESET_ITINERARY = PRESET_NIAGARA;
+export const PRESET_SIGNATURE = PRESET_NIAGARA;
+export const PRESET_ROMANTIC = PRESET_EVENING;
+export const PRESET_QUICK = PRESET_TORONTO;
 
 /**
  * Calculate the total price for a given set of activities and group size.

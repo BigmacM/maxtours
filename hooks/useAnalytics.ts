@@ -29,8 +29,17 @@ export function useAnalytics() {
     trackActivityDragged: (activityId: string, newPosition: number) =>
       pushEvent('activity_dragged', { activity_id: activityId, new_position: newPosition }),
 
+    /** GA4: preset_selected — fires when user clicks a preset card */
+    trackPresetSelected: (presetName: string, activityCount: number) =>
+      pushEvent('preset_selected', { preset_name: presetName, activity_count: activityCount }),
+
+    /** Legacy alias */
     trackPresetUsed: (presetName: string, activityCount: number) =>
       pushEvent('builder_preset_used', { preset_name: presetName, activity_count: activityCount }),
+
+    /** GA4: itinerary_customized — fires when user changes more than 2 items from a preset */
+    trackItineraryCustomized: (changeCount: number) =>
+      pushEvent('itinerary_customized', { change_count: changeCount }),
 
     trackTimelineCompleted: (activityCount: number, totalDuration: number) =>
       pushEvent('timeline_completed', { activity_count: activityCount, total_duration_minutes: totalDuration }),
@@ -45,6 +54,13 @@ export function useAnalytics() {
         group_size: groupSize,
         activities,
         itinerary_depth: activities.length,
+      }),
+
+    /** GA4: whatsapp_redirect_success — fires after WhatsApp link is opened */
+    trackWhatsAppRedirectSuccess: (customerName: string, itineraryLength: number) =>
+      pushEvent('whatsapp_redirect_success', {
+        customer_name: customerName,
+        itinerary_length: itineraryLength,
       }),
 
     trackExperienceBuilderStart: () => pushEvent('experience_builder_start'),

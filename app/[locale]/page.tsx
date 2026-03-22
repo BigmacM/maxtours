@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import HeroSection from '@/components/HeroSection';
@@ -15,24 +16,64 @@ interface HomePageProps {
 
 const LOCALE_META: Record<string, { title: string; description: string; ogLocale: string }> = {
   'en-us': {
-    title: "MaxTours — Toronto's Most Exclusive Private Tours | Niagara Falls Day Trips",
+    title: 'MaxTours — Best Private Niagara Car Service from Toronto | Luxury SUV Tours',
     description:
-      'Private luxury tours from Toronto to Niagara Falls starting at CA$695. Bespoke itineraries, expert guides, premium vehicles. Book your exclusive experience today.',
+      'The best private Niagara car service from Toronto starting at CA$695. Luxury SUV, expert guide, skip-the-line access. Get a quick quote for your vacation today.',
     ogLocale: 'en_US',
   },
   'en-gb': {
-    title: "MaxTours — Toronto's Most Exclusive Private Tours | Niagara Falls Day Trips",
+    title: 'MaxTours — Luxury Niagara Falls Day Trips: A Private Guided Experience',
     description:
-      'Private luxury tours from Toronto to Niagara Falls from CA$695. Bespoke itineraries, expert guides, premium vehicles. Perfect for British travellers visiting Canada.',
+      'Luxury Niagara Falls day trips from Toronto from CA$695. Private estate car, expert guide, bespoke holiday itineraries. Inquire for details — perfect for British travellers.',
     ogLocale: 'en_GB',
   },
   'en-au': {
-    title: "MaxTours — Toronto's Most Exclusive Private Tours | Niagara Falls Day Trips",
+    title: 'MaxTours — All-Inclusive Niagara Falls Holiday Packages | Private Guided Tours',
     description:
-      'Private luxury tours from Toronto to Niagara Falls from CA$695. Bespoke itineraries, expert guides, premium vehicles. The definitive experience for Australian visitors to Canada.',
+      'All-inclusive Niagara Falls holiday packages from Toronto from CA$695. Premium return transfer, expert guide, private guided tours Toronto Canada. Book your experience.',
     ogLocale: 'en_AU',
   },
 };
+
+const LOCALE_HERO: Record<string, { headline: string; subline: string; ctaPrimary: string; ctaSecondary: string }> = {
+  'en-us': {
+    headline: 'The Best Private Niagara Car Service from Toronto',
+    subline:
+      'Skip the crowds. Travel in a luxury SUV with a private guide — bespoke vacation itineraries crafted for discerning travellers who demand the extraordinary.',
+    ctaPrimary: 'Get a Quick Quote',
+    ctaSecondary: 'Explore Our Tours',
+  },
+  'en-gb': {
+    headline: 'Luxury Niagara Falls Day Trips: A Private Guided Experience',
+    subline:
+      'A bespoke holiday experience from downtown Toronto to the grandeur of Niagara Falls — private estate car, expert storyteller, and insider access unavailable on group tours.',
+    ctaPrimary: 'Inquire for Details',
+    ctaSecondary: 'View Our Tours',
+  },
+  'en-au': {
+    headline: 'All-Inclusive Niagara Falls Holiday Packages',
+    subline:
+      'The definitive private guided tour Toronto Canada offers — seamless return transfer, expert guide, and unforgettable holiday memories crafted exclusively for your group.',
+    ctaPrimary: 'Book Your Experience',
+    ctaSecondary: 'Explore Our Tours',
+  },
+};
+
+// Unsplash photo IDs for tour cards (lazy-loaded, object-cover)
+const TOUR_IMAGES = [
+  {
+    src: 'https://images.unsplash.com/photo-1609133083818-5e2d2e1f2f2a?w=800&q=80&auto=format&fit=crop',
+    alt: 'Niagara Falls Horseshoe Falls mist at golden hour',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1517090504586-fde19ea6066f?w=800&q=80&auto=format&fit=crop',
+    alt: 'CN Tower and Toronto skyline at dusk for private city tour',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&auto=format&fit=crop',
+    alt: 'Niagara-on-the-Lake vineyard icewine tasting Peller Estates',
+  },
+];
 
 export async function generateMetadata({ params }: HomePageProps): Promise<Metadata> {
   const { locale } = await params;
@@ -67,6 +108,7 @@ export function generateStaticParams() {
 
 export default async function HomePage({ params }: HomePageProps) {
   const { locale } = await params;
+  const hero = LOCALE_HERO[locale] || LOCALE_HERO['en-us'];
 
   const WHY_CARDS = [
     {
@@ -102,7 +144,13 @@ export default async function HomePage({ params }: HomePageProps) {
       <LocalBusinessSchema locale={locale} />
 
       {/* Hero */}
-      <HeroSection locale={locale} />
+      <HeroSection
+        locale={locale}
+        headline={hero.headline}
+        subline={hero.subline}
+        ctaPrimary={hero.ctaPrimary}
+        ctaSecondary={hero.ctaSecondary}
+      />
 
       {/* Why MaxTours — Bento Grid */}
       <section className="py-24 px-6" id="why">
@@ -217,23 +265,16 @@ export default async function HomePage({ params }: HomePageProps) {
                     minHeight: '360px',
                   }}
                 >
-                  {/* Image placeholder */}
-                  <div
-                    className="h-48 w-full flex-shrink-0 relative overflow-hidden"
-                    style={{
-                      background:
-                        i === 0
-                          ? 'linear-gradient(135deg, #0a2540 0%, #1a4060 50%, #0d2d45 100%)'
-                          : i === 1
-                          ? 'linear-gradient(135deg, #1a0a20 0%, #3a1a40 50%, #2d0d3a 100%)'
-                          : 'linear-gradient(135deg, #0a2010 0%, #1a4020 50%, #0d2d15 100%)',
-                    }}
-                  >
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-6xl opacity-20">
-                        {i === 0 ? '🌊' : i === 1 ? '🏙️' : '🍷'}
-                      </span>
-                    </div>
+                  {/* Tour image */}
+                  <div className="h-48 w-full flex-shrink-0 relative overflow-hidden bg-midnight-800">
+                    <Image
+                      src={TOUR_IMAGES[i].src}
+                      alt={TOUR_IMAGES[i].alt}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover"
+                      loading="lazy"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-midnight to-transparent opacity-70" />
 
                     {/* Category badge */}
@@ -417,8 +458,8 @@ export default async function HomePage({ params }: HomePageProps) {
 
       {/* Footer */}
       <footer
-        className="py-12 px-6 border-t border-white/8"
-        style={{ background: 'rgba(6,14,24,0.8)' }}
+        className="py-12 px-6 border-t border-white/8 maple-leaf-bg"
+        style={{ background: 'rgba(6,14,24,0.9)' }}
       >
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
@@ -436,8 +477,18 @@ export default async function HomePage({ params }: HomePageProps) {
             <p className="font-inter text-xs text-taupe/40 mt-1">
               Toronto&apos;s Premier Private Tour Operator
             </p>
+            {/* Canadian Crafted Excellence badge */}
+            <div className="flex items-center gap-1.5 mt-2">
+              <span className="text-sm">🍁</span>
+              <span className="font-inter text-[10px] uppercase tracking-widest text-gold/40">
+                Canadian Crafted Excellence
+              </span>
+            </div>
           </div>
           <div className="flex items-center gap-6">
+            <Link href={`/${locale}/about`} className="font-inter text-xs text-taupe/40 hover:text-taupe/70 transition-colors">
+              About
+            </Link>
             <Link href={`/${locale}/privacy`} className="font-inter text-xs text-taupe/40 hover:text-taupe/70 transition-colors">
               Privacy Policy
             </Link>

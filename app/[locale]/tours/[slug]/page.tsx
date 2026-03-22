@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import JSONLD from '@/components/SEO/JSONLD';
-import BuilderCanvas from '@/components/ExperienceBuilder/BuilderCanvas';
+import BuilderCanvasClient from '@/components/ExperienceBuilder/BuilderCanvasClient';
 import HomepageAnimations from '@/components/HomepageAnimations';
 import { getTourBySlug, getAllTourSlugs } from '@/lib/tours';
 import { locales, type Locale } from '@/i18n/request';
@@ -470,7 +470,7 @@ export default async function TourPage({ params }: TourPageProps) {
               boxShadow: '0 16px 48px rgba(0,0,0,0.5)',
             }}
           >
-            <BuilderCanvas />
+            <BuilderCanvasClient />
           </div>
         </div>
       </div>
