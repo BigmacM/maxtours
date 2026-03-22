@@ -128,7 +128,7 @@ export default function HeroSection({
             Toronto&apos;s Most{' '}
             <span
               style={{
-                background: 'linear-gradient(135deg, #d4af37 0%, #e8cc6a 60%, #c87941 100%)',
+                background: 'linear-gradient(135deg, #E6D17B 0%, #d4af37 40%, #e8cc6a 70%, #c87941 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',

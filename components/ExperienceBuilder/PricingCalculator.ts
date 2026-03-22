@@ -21,7 +21,7 @@ export const GROUP_SIZES: GroupSize[] = [
     label: '1–2 Guests',
     min: 1,
     max: 2,
-    vehicleType: 'Executive Sedan',
+    vehicleType: 'Mazda CX-90 (Luxury SUV)',
     basePrice: 695,
     multiplier: 1.0,
   },
@@ -52,20 +52,52 @@ export const GROUP_SIZES: GroupSize[] = [
 ];
 
 export const AVAILABLE_ACTIVITIES: Activity[] = [
+  // Transport upgrades
+  { id: 'tesla-eco', icon: '⚡', title: 'Tesla Model X (Eco-Luxury Upgrade)', duration: 0, price: 75, category: 'Transport' },
+  { id: 'stretch-limo', icon: '🚗', title: 'Stretch Limousine (Special Occasions)', duration: 0, price: 150, category: 'Transport' },
+
+  // Morning starters
+  { id: 'doorstep-pickup', icon: '🏨', title: 'Doorstep Hotel Pickup', duration: 20, price: 0, category: 'Morning' },
+  { id: 'gourmet-coffee', icon: '☕', title: 'Gourmet Coffee Stop', duration: 20, price: 15, category: 'Morning' },
+  { id: 'wayside-chapel', icon: '⛪', title: "Wayside Chapel (World's Smallest Church)", duration: 15, price: 0, category: 'Morning' },
+
+  // Niagara main events
   { id: 'hornblower', icon: '🚢', title: 'Hornblower Cruise', duration: 60, price: 85, category: 'Niagara' },
   { id: 'journey-behind-falls', icon: '💧', title: 'Journey Behind the Falls', duration: 45, price: 65, category: 'Niagara' },
   { id: 'skylon-tower', icon: '🗼', title: 'Skylon Tower Observation', duration: 45, price: 55, category: 'Niagara' },
+
+  // Scenic
+  { id: 'floral-clock', icon: '🌸', title: 'Floral Clock & Whirlpool Rapids', duration: 30, price: 0, category: 'Scenic' },
+  { id: 'dufferin-islands', icon: '🌿', title: 'Dufferin Islands Nature Walk', duration: 45, price: 0, category: 'Scenic' },
+
+  // Adventure
+  { id: 'helicopter', icon: '🚁', title: 'Helicopter Adventure (15 min)', duration: 20, price: 250, category: 'Adventure' },
+
+  // Historic
+  { id: 'power-station', icon: '🏭', title: 'Niagara Power Station Tour', duration: 60, price: 45, category: 'Historic' },
+
+  // Wine & vineyard
   { id: 'notl-wine', icon: '🍷', title: 'NOTL Winery Icewine Tasting', duration: 90, price: 120, category: 'Wine' },
-  { id: 'floral-clock', icon: '🌸', title: 'Floral Clock & Whirlpool', duration: 30, price: 0, category: 'Scenic' },
-  { id: 'helicopter', icon: '🚁', title: 'Helicopter Adventure', duration: 20, price: 250, category: 'Adventure' },
-  { id: 'power-station', icon: '⚡', title: 'Niagara Power Station', duration: 60, price: 45, category: 'Historic' },
+  { id: 'private-cellar-tour', icon: '🍾', title: 'Private Cellar Tour', duration: 60, price: 95, category: 'Wine' },
+  { id: 'peller-lunch', icon: '🍽️', title: 'Lunch at Peller Estates', duration: 90, price: 110, category: 'Wine' },
+  { id: 'vineyard-photography', icon: '📸', title: 'Vineyard Photography Session', duration: 45, price: 65, category: 'Wine' },
+
+  // Toronto
   { id: 'cn-tower', icon: '🏙️', title: 'CN Tower EdgeWalk', duration: 90, price: 195, category: 'Toronto' },
   { id: 'casa-loma', icon: '🏰', title: 'Casa Loma Castle', duration: 75, price: 40, category: 'Toronto' },
   { id: 'distillery', icon: '🏛️', title: 'Distillery District', duration: 60, price: 0, category: 'Toronto' },
-  { id: 'illumination', icon: '🌈', title: 'Falls Illumination (Evening)', duration: 45, price: 35, category: 'Niagara' },
+
+  // Cultural
   { id: 'maple-tasting', icon: '🍁', title: 'Maple Syrup Farm Visit', duration: 60, price: 55, category: 'Cultural' },
+
+  // Evening elite
+  { id: 'illumination', icon: '🌈', title: 'Falls Illumination (Evening)', duration: 45, price: 35, category: 'Evening' },
+  { id: 'illumination-tower', icon: '💡', title: 'Illumination Tower (Control the Falls)', duration: 30, price: 75, category: 'Evening' },
+  { id: 'power-station-show', icon: '🔦', title: 'Power Station Light Show', duration: 45, price: 40, category: 'Evening' },
+  { id: 'fireworks-falls', icon: '🎆', title: 'Fireworks over the Falls', duration: 45, price: 0, category: 'Evening' },
 ];
 
+// Legacy preset kept for backward compatibility
 export const PRESET_ITINERARY: Activity[] = [
   AVAILABLE_ACTIVITIES.find((a) => a.id === 'hornblower')!,
   AVAILABLE_ACTIVITIES.find((a) => a.id === 'journey-behind-falls')!,
@@ -73,6 +105,34 @@ export const PRESET_ITINERARY: Activity[] = [
   AVAILABLE_ACTIVITIES.find((a) => a.id === 'notl-wine')!,
   AVAILABLE_ACTIVITIES.find((a) => a.id === 'skylon-tower')!,
   AVAILABLE_ACTIVITIES.find((a) => a.id === 'illumination')!,
+];
+
+/** The Signature Day — full Niagara experience */
+export const PRESET_SIGNATURE: Activity[] = [
+  AVAILABLE_ACTIVITIES.find((a) => a.id === 'doorstep-pickup')!,
+  AVAILABLE_ACTIVITIES.find((a) => a.id === 'hornblower')!,
+  AVAILABLE_ACTIVITIES.find((a) => a.id === 'journey-behind-falls')!,
+  AVAILABLE_ACTIVITIES.find((a) => a.id === 'floral-clock')!,
+  AVAILABLE_ACTIVITIES.find((a) => a.id === 'notl-wine')!,
+  AVAILABLE_ACTIVITIES.find((a) => a.id === 'illumination')!,
+];
+
+/** The Romantic Evening — wine, views & light show */
+export const PRESET_ROMANTIC: Activity[] = [
+  AVAILABLE_ACTIVITIES.find((a) => a.id === 'gourmet-coffee')!,
+  AVAILABLE_ACTIVITIES.find((a) => a.id === 'skylon-tower')!,
+  AVAILABLE_ACTIVITIES.find((a) => a.id === 'private-cellar-tour')!,
+  AVAILABLE_ACTIVITIES.find((a) => a.id === 'vineyard-photography')!,
+  AVAILABLE_ACTIVITIES.find((a) => a.id === 'illumination-tower')!,
+  AVAILABLE_ACTIVITIES.find((a) => a.id === 'fireworks-falls')!,
+];
+
+/** The Quick Escape — highlights in 4 stops */
+export const PRESET_QUICK: Activity[] = [
+  AVAILABLE_ACTIVITIES.find((a) => a.id === 'doorstep-pickup')!,
+  AVAILABLE_ACTIVITIES.find((a) => a.id === 'hornblower')!,
+  AVAILABLE_ACTIVITIES.find((a) => a.id === 'journey-behind-falls')!,
+  AVAILABLE_ACTIVITIES.find((a) => a.id === 'floral-clock')!,
 ];
 
 /**
@@ -102,7 +162,7 @@ export function calculateTotalDuration(activities: Activity[]): number {
 
 /**
  * Format a duration in minutes to a human-readable string.
- * e.g. 480 → "8 hr 0 min", 95 → "1 hr 35 min"
+ * e.g. 480 → "8 hr", 95 → "1 hr 35 min"
  */
 export function formatDuration(minutes: number): string {
   if (minutes === 0) return '0 min';
@@ -113,9 +173,7 @@ export function formatDuration(minutes: number): string {
   return `${hours} hr ${mins} min`;
 }
 
-/**
- * Get the category colour for UI display
- */
+/** Get the category colour for UI display */
 export function getCategoryColor(category: string): string {
   const colors: Record<string, string> = {
     Niagara: 'text-blue-300',
@@ -125,6 +183,9 @@ export function getCategoryColor(category: string): string {
     Historic: 'text-amber-300',
     Toronto: 'text-cyan-300',
     Cultural: 'text-red-300',
+    Transport: 'text-indigo-300',
+    Morning: 'text-yellow-300',
+    Evening: 'text-violet-300',
   };
   return colors[category] || 'text-taupe';
 }

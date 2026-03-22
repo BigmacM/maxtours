@@ -6,7 +6,16 @@ import CompetitorShowcase from '@/components/CompetitorShowcase';
 import { LocalBusinessSchema } from '@/components/SEO/JSONLD';
 import { tours } from '@/lib/tours';
 import { locales, type Locale } from '@/i18n/request';
-import BuilderCanvas from '@/components/ExperienceBuilder/BuilderCanvas';
+import dynamic from 'next/dynamic';
+
+const BuilderCanvas = dynamic(() => import('@/components/ExperienceBuilder/BuilderCanvas'), {
+  loading: () => (
+    <div className="h-96 flex items-center justify-center">
+      <div className="w-8 h-8 rounded-full border-2 border-gold/40 border-t-gold animate-spin" />
+    </div>
+  ),
+  ssr: false,
+});
 import HomepageAnimations from '@/components/HomepageAnimations';
 
 interface HomePageProps {

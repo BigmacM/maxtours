@@ -21,17 +21,30 @@ export function useAnalytics() {
       pushEvent('builder_drag_end', { activity_id: activityId, position }),
 
     trackItemAdded: (activityId: string, activityName: string) =>
-      pushEvent('item_added', { activity_id: activityId, activity_name: activityName }),
+      pushEvent('select_item', { activity_id: activityId, activity_name: activityName }),
 
     trackItemRemoved: (activityId: string) =>
       pushEvent('item_removed', { activity_id: activityId }),
 
+    trackActivityDragged: (activityId: string, newPosition: number) =>
+      pushEvent('activity_dragged', { activity_id: activityId, new_position: newPosition }),
+
+    trackPresetUsed: (presetName: string, activityCount: number) =>
+      pushEvent('builder_preset_used', { preset_name: presetName, activity_count: activityCount }),
+
+    trackTimelineCompleted: (activityCount: number, totalDuration: number) =>
+      pushEvent('timeline_completed', { activity_count: activityCount, total_duration_minutes: totalDuration }),
+
+    trackCategoryViewed: (category: string) =>
+      pushEvent('view_item_list', { item_list_name: category }),
+
     trackQuoteInitiated: (totalPrice: number, groupSize: string, activities: string[]) =>
-      pushEvent('quote_initiated', {
+      pushEvent('begin_checkout', {
         value: totalPrice,
         currency: 'CAD',
         group_size: groupSize,
         activities,
+        itinerary_depth: activities.length,
       }),
 
     trackExperienceBuilderStart: () => pushEvent('experience_builder_start'),

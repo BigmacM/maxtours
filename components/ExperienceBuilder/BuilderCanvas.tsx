@@ -6,7 +6,9 @@ import clsx from 'clsx';
 import {
   AVAILABLE_ACTIVITIES,
   GROUP_SIZES,
-  PRESET_ITINERARY,
+  PRESET_SIGNATURE,
+  PRESET_ROMANTIC,
+  PRESET_QUICK,
   calculatePrice,
   calculateTotalDuration,
   formatDuration,
@@ -16,12 +18,37 @@ import {
 import { ActivityPaletteCard, ActivityDraggableCard } from './ActivityCard';
 import { useAnalytics } from '@/hooks/useAnalytics';
 
-const CATEGORIES = ['All', 'Niagara', 'Toronto', 'Wine', 'Adventure', 'Scenic', 'Historic', 'Cultural'];
+const CATEGORIES = ['All', 'Transport', 'Morning', 'Niagara', 'Scenic', 'Wine', 'Toronto', 'Adventure', 'Historic', 'Cultural', 'Evening'];
+
+const PRESETS = [
+  {
+    id: 'signature',
+    label: 'The Signature Day',
+    description: 'Full Niagara experience',
+    icon: '✦',
+    activities: PRESET_SIGNATURE,
+  },
+  {
+    id: 'romantic',
+    label: 'The Romantic Evening',
+    description: 'Wine, views & light show',
+    icon: '♡',
+    activities: PRESET_ROMANTIC,
+  },
+  {
+    id: 'quick',
+    label: 'The Quick Escape',
+    description: 'Highlights in 4 stops',
+    icon: '◈',
+    activities: PRESET_QUICK,
+  },
+];
 
 export default function BuilderCanvas() {
   const [itinerary, setItinerary] = useState<Activity[]>([]);
   const [selectedGroupSize, setSelectedGroupSize] = useState<GroupSize>(GROUP_SIZES[0]);
   const [activeCategory, setActiveCategory] = useState('All');
+  const [activePreset, setActivePreset] = useState<string | null>(null);
   const [isQuoteSubmitting, setIsQuoteSubmitting] = useState(false);
   const [quoteSubmitted, setQuoteSubmitted] = useState(false);
 
@@ -37,9 +64,19 @@ export default function BuilderCanvas() {
   const totalDuration = calculateTotalDuration(itinerary);
   const totalPrice = calculatePrice(itinerary, selectedGroupSize);
 
+  const handlePresetSelect = useCallback(
+    (presetId: string, presetActivities: Activity[], presetLabel: string) => {
+      setItinerary(presetActivities);
+      setActivePreset(presetId);
+      analytics.trackPresetUsed(presetLabel, presetActivities.length);
+    },
+    [analytics],
+  );
+
   const handleAddActivity = useCallback(
     (activity: Activity) => {
       setItinerary((prev) => [...prev, activity]);
+      setActivePreset(null);
       analytics.trackItemAdded(activity.id, activity.title);
     },
     [analytics],
@@ -48,40 +85,111 @@ export default function BuilderCanvas() {
   const handleRemoveActivity = useCallback(
     (activityId: string) => {
       setItinerary((prev) => prev.filter((a) => a.id !== activityId));
+      setActivePreset(null);
       analytics.trackItemRemoved(activityId);
     },
     [analytics],
   );
 
-  const handleLoadPreset = useCallback(() => {
-    setItinerary(PRESET_ITINERARY);
-    analytics.trackExperienceBuilderStart();
-  }, [analytics]);
+  const handleReorder = useCallback(
+    (newOrder: Activity[]) => {
+      setItinerary(newOrder);
+      setActivePreset(null);
+    },
+    [],
+  );
+
+  const handleCategoryChange = useCallback(
+    (category: string) => {
+      setActiveCategory(category);
+      analytics.trackCategoryViewed(category);
+    },
+    [analytics],
+  );
 
   const handleRequestQuote = useCallback(async () => {
     if (itinerary.length === 0) return;
     setIsQuoteSubmitting(true);
+    analytics.trackTimelineCompleted(itinerary.length, totalDuration);
     analytics.trackQuoteInitiated(
       totalPrice,
       selectedGroupSize.label,
       itinerary.map((a) => a.id),
     );
-    // Simulate async quote submission
     await new Promise((resolve) => setTimeout(resolve, 1500));
     setIsQuoteSubmitting(false);
     setQuoteSubmitted(true);
     setTimeout(() => setQuoteSubmitted(false), 4000);
-  }, [itinerary, totalPrice, selectedGroupSize, analytics]);
-
-  const handleReorder = useCallback(
-    (newOrder: Activity[]) => {
-      setItinerary(newOrder);
-    },
-    [],
-  );
+  }, [itinerary, totalPrice, totalDuration, selectedGroupSize, analytics]);
 
   return (
-    <div className="w-full">
+    <div className="w-full relative">
+      {/* Floating trust badge */}
+      <div className="flex justify-end mb-4">
+        <div
+          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-gold/30 backdrop-blur-xl"
+          style={{ background: 'rgba(212,175,55,0.07)' }}
+        >
+          <span className="text-sm leading-none">⭐</span>
+          <span className="font-inter text-xs font-semibold text-gold">5.0 on TripAdvisor</span>
+          <span className="font-inter text-[10px] text-taupe/50">· 847 verified reviews</span>
+        </div>
+      </div>
+
+      {/* Preset Cards */}
+      <div className="mb-6">
+        <p className="font-inter text-xs text-taupe/60 uppercase tracking-widest mb-3">
+          Start with a Curated Preset
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {PRESETS.map((preset) => (
+            <button
+              key={preset.id}
+              onClick={() => handlePresetSelect(preset.id, preset.activities, preset.label)}
+              className={clsx(
+                'relative rounded-xl px-4 py-3.5 text-left transition-all duration-300 group',
+                'backdrop-blur-xl border',
+                activePreset === preset.id
+                  ? 'border-gold/60 bg-gold/10'
+                  : 'border-white/10 bg-white/5 hover:border-gold/30 hover:bg-white/8',
+              )}
+              style={{
+                boxShadow:
+                  activePreset === preset.id
+                    ? '0 0 24px rgba(212,175,55,0.15), inset 0 1px 0 rgba(255,255,255,0.1)'
+                    : '4px 4px 10px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03)',
+              }}
+            >
+              {activePreset === preset.id && (
+                <div className="absolute top-2.5 right-2.5 w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
+              )}
+              <div className="flex items-center gap-2 mb-1">
+                <span
+                  className={clsx(
+                    'text-sm font-playfair transition-colors duration-300',
+                    activePreset === preset.id ? 'text-gold' : 'text-white/50 group-hover:text-gold/70',
+                  )}
+                >
+                  {preset.icon}
+                </span>
+                <p
+                  className={clsx(
+                    'font-playfair text-sm font-medium transition-colors duration-300',
+                    activePreset === preset.id ? 'text-gold' : 'text-white/80 group-hover:text-white',
+                  )}
+                >
+                  {preset.label}
+                </p>
+              </div>
+              <p className="font-inter text-[11px] text-taupe/50">{preset.description}</p>
+              <p className="font-inter text-[11px] text-gold/50 mt-1">
+                {preset.activities.length} experiences included
+              </p>
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Group Size Selector */}
       <div className="mb-6">
         <p className="font-inter text-xs text-taupe/60 uppercase tracking-widest mb-3">
@@ -136,7 +244,7 @@ export default function BuilderCanvas() {
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-playfair text-base text-white">Available Experiences</h3>
-            <span className="font-inter text-xs text-taupe/50">{AVAILABLE_ACTIVITIES.length} experiences</span>
+            <span className="font-inter text-xs text-taupe/50">{filteredActivities.length} experiences</span>
           </div>
 
           {/* Category Filter */}
@@ -144,7 +252,7 @@ export default function BuilderCanvas() {
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}
-                onClick={() => setActiveCategory(cat)}
+                onClick={() => handleCategoryChange(cat)}
                 className={clsx(
                   'px-2.5 py-1 rounded-lg text-xs font-inter transition-all duration-200',
                   activeCategory === cat
@@ -189,12 +297,11 @@ export default function BuilderCanvas() {
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-playfair text-base text-white">Your Itinerary</h3>
-            <button
-              onClick={handleLoadPreset}
-              className="px-3 py-1.5 rounded-lg text-xs font-inter text-taupe/70 border border-white/10 hover:border-gold/30 hover:text-gold transition-all duration-200"
-            >
-              Load Preset Day
-            </button>
+            {itinerary.length > 0 && (
+              <span className="font-inter text-xs text-taupe/50">
+                {itinerary.length} stop{itinerary.length !== 1 ? 's' : ''} · {formatDuration(totalDuration)}
+              </span>
+            )}
           </div>
 
           {itinerary.length === 0 ? (
@@ -204,7 +311,7 @@ export default function BuilderCanvas() {
               </div>
               <p className="font-playfair text-white/60 mb-1">Begin Composing</p>
               <p className="font-inter text-xs text-taupe/40">
-                Select experiences from the left panel or load a preset itinerary
+                Choose a preset above or select experiences from the left panel
               </p>
             </div>
           ) : (
@@ -275,7 +382,7 @@ export default function BuilderCanvas() {
 
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
                 <button
-                  onClick={() => setItinerary([])}
+                  onClick={() => { setItinerary([]); setActivePreset(null); }}
                   className="px-4 py-2.5 rounded-lg text-sm font-inter text-taupe/60 border border-white/10 hover:border-white/20 hover:text-taupe transition-all duration-200"
                 >
                   Clear

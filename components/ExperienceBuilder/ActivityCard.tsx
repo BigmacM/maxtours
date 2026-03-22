@@ -104,8 +104,10 @@ export function ActivityDraggableCard({
       id={activity.id}
       className="relative group"
       whileDrag={{
-        scale: 1.03,
-        boxShadow: '0 16px 48px rgba(0,0,0,0.6), 0 0 0 2px rgba(212,175,55,0.4)',
+        scale: 1.05,
+        boxShadow:
+          '0 20px 60px rgba(0,0,0,0.7), 0 0 0 2px rgba(212,175,55,0.5), inset 0 1px 0 rgba(255,255,255,0.15)',
+        backdropFilter: 'blur(16px)',
         zIndex: 50,
       }}
     >
