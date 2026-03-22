@@ -6,16 +6,7 @@ import CompetitorShowcase from '@/components/CompetitorShowcase';
 import { LocalBusinessSchema } from '@/components/SEO/JSONLD';
 import { tours } from '@/lib/tours';
 import { locales, type Locale } from '@/i18n/request';
-import dynamic from 'next/dynamic';
-
-const BuilderCanvas = dynamic(() => import('@/components/ExperienceBuilder/BuilderCanvas'), {
-  loading: () => (
-    <div className="h-96 flex items-center justify-center">
-      <div className="w-8 h-8 rounded-full border-2 border-gold/40 border-t-gold animate-spin" />
-    </div>
-  ),
-  ssr: false,
-});
+import BuilderCanvasClient from '@/components/ExperienceBuilder/BuilderCanvasClient';
 import HomepageAnimations from '@/components/HomepageAnimations';
 
 interface HomePageProps {
@@ -341,7 +332,7 @@ export default async function HomePage({ params }: HomePageProps) {
               boxShadow: '0 16px 48px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)',
             }}
           >
-            <BuilderCanvas />
+            <BuilderCanvasClient />
           </div>
         </div>
       </section>
