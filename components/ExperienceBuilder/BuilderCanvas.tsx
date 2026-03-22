@@ -322,7 +322,6 @@ export default function BuilderCanvas() {
                 >
                   <ActivityPaletteCard
                     activity={activity}
-                    isSelected={selectedIds.has(activity.id)}
                     onAdd={handleAddActivity}
                   />
                 </motion.div>
