@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback, useRef } from 'react';
-import { motion, AnimatePresence, Reorder } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
 import {
   AVAILABLE_ACTIVITIES,
@@ -69,10 +69,10 @@ export default function BuilderCanvas() {
 
   const selectedIds = new Set(itinerary.map((a) => a.id));
 
-  const filteredActivities =
-    activeCategory === 'All'
-      ? AVAILABLE_ACTIVITIES
-      : AVAILABLE_ACTIVITIES.filter((a) => a.category === activeCategory);
+  // Filter out already-added activities and apply category filter
+  const filteredActivities = AVAILABLE_ACTIVITIES.filter(
+    (a) => !selectedIds.has(a.id) && (activeCategory === 'All' || a.category === activeCategory),
+  );
 
   const totalDuration = calculateTotalDuration(itinerary);
   const totalPrice = calculatePrice(itinerary, selectedGroupSize);
@@ -112,11 +112,6 @@ export default function BuilderCanvas() {
     },
     [analytics],
   );
-
-  const handleReorder = useCallback((newOrder: Activity[]) => {
-    setItinerary(newOrder);
-    setActivePreset(null);
-  }, []);
 
   const handleCategoryChange = useCallback(
     (category: string) => {
@@ -364,21 +359,18 @@ export default function BuilderCanvas() {
               </p>
             </div>
           ) : (
-            <Reorder.Group
-              axis="y"
-              values={itinerary}
-              onReorder={handleReorder}
-              className="space-y-2 max-h-72 overflow-y-auto pr-1"
-            >
-              {itinerary.map((activity, index) => (
-                <ActivityDraggableCard
-                  key={activity.id}
-                  activity={activity}
-                  onRemove={handleRemoveActivity}
-                  index={index}
-                />
-              ))}
-            </Reorder.Group>
+            <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
+              <AnimatePresence mode="popLayout">
+                {itinerary.map((activity, index) => (
+                  <ActivityDraggableCard
+                    key={activity.id}
+                    activity={activity}
+                    onRemove={handleRemoveActivity}
+                    index={index}
+                  />
+                ))}
+              </AnimatePresence>
+            </div>
           )}
 
           {itinerary.length > 0 && (

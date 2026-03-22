@@ -55,17 +55,27 @@ export default function HeroSection({
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Video/Background Layer */}
       <div className="absolute inset-0 z-0">
-        {/* Placeholder gradient background — structured for video swap */}
+        {/* Base dark background */}
         <div className="absolute inset-0 bg-midnight-900" />
-        {/* Video element — swap src for production */}
+
+        {/* Niagara Falls hero image */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="https://images.unsplash.com/photo-1562016600-ece13e8ba570?w=1920&q=85&auto=format&fit=crop"
+          alt="Niagara Falls Horseshoe Falls aerial view at golden hour"
+          className="absolute inset-0 w-full h-full object-cover opacity-45"
+          loading="eager"
+          fetchPriority="high"
+        />
+
+        {/* Video element — swap src for production (falls back to image above) */}
         <video
           ref={videoRef}
-          className="absolute inset-0 w-full h-full object-cover opacity-30"
+          className="absolute inset-0 w-full h-full object-cover opacity-35"
           autoPlay
           muted
           loop
           playsInline
-          poster="/images/hero-poster.jpg"
         >
           {/* <source src="/videos/niagara-hero.mp4" type="video/mp4" /> */}
         </video>

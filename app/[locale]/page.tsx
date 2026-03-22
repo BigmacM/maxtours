@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import HeroSection from '@/components/HeroSection';
@@ -59,19 +58,19 @@ const LOCALE_HERO: Record<string, { headline: string; subline: string; ctaPrimar
   },
 };
 
-// Unsplash photo IDs for tour cards (lazy-loaded, object-cover)
+// Tour card images — using plain <img> tags for maximum URL flexibility
 const TOUR_IMAGES = [
   {
-    src: 'https://images.unsplash.com/photo-1609133083818-5e2d2e1f2f2a?w=800&q=80&auto=format&fit=crop',
-    alt: 'Niagara Falls Horseshoe Falls mist at golden hour',
+    src: 'https://images.unsplash.com/photo-1530041539957-0c2c96d8bd15?w=800&q=80&auto=format&fit=crop',
+    alt: 'Luxury Mazda CX-90 private Niagara Falls tour — Horseshoe Falls mist',
   },
   {
-    src: 'https://images.unsplash.com/photo-1517090504586-fde19ea6066f?w=800&q=80&auto=format&fit=crop',
-    alt: 'CN Tower and Toronto skyline at dusk for private city tour',
+    src: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80&auto=format&fit=crop',
+    alt: 'Toronto CN Tower skyline private city tour highlights',
   },
   {
-    src: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&auto=format&fit=crop',
-    alt: 'Niagara-on-the-Lake vineyard icewine tasting Peller Estates',
+    src: 'https://images.unsplash.com/photo-1474722883778-792e7990302f?w=800&q=80&auto=format&fit=crop',
+    alt: 'Niagara-on-the-Lake vineyard icewine tasting Peller Estates wine tour',
   },
 ];
 
@@ -267,12 +266,11 @@ export default async function HomePage({ params }: HomePageProps) {
                 >
                   {/* Tour image */}
                   <div className="h-48 w-full flex-shrink-0 relative overflow-hidden bg-midnight-800">
-                    <Image
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
                       src={TOUR_IMAGES[i].src}
                       alt={TOUR_IMAGES[i].alt}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                      className="object-cover"
+                      className="absolute inset-0 w-full h-full object-cover"
                       loading="lazy"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-midnight to-transparent opacity-70" />
@@ -359,7 +357,7 @@ export default async function HomePage({ params }: HomePageProps) {
                 Compose Your Perfect Day
               </h2>
               <p className="font-inter text-taupe/60 max-w-xl mx-auto font-light">
-                Drag, arrange and personalise your ideal itinerary — then receive your bespoke private quote instantly.
+                Select experiences and personalise your ideal itinerary — then receive your bespoke private quote via WhatsApp.
               </p>
             </div>
           </HomepageAnimations>
