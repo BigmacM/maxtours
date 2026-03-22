@@ -1,0 +1,47 @@
+{
+  "nav": {
+    "tours": "Tours",
+    "builder": "Experience Builder",
+    "about": "About",
+    "contact": "Contact",
+    "cta": "Request a Private Quote"
+  },
+  "hero": {
+    "headline": "Toronto's Most Exclusive Private Tours",
+    "subline": "Bespoke journeys from the heart of Toronto to the grandeur of Niagara Falls — crafted for discerning travellers who demand the extraordinary.",
+    "cta_primary": "Compose Your Journey",
+    "cta_secondary": "Explore Our Tours"
+  },
+  "why": {
+    "headline": "Why Discerning Travellers Choose MaxTours",
+    "bespoke_title": "Bespoke Journeys",
+    "bespoke_desc": "Every itinerary is crafted exclusively for you. No shared coaches, no rigid schedules — only curated experiences tailored to your desires.",
+    "guides_title": "Expert Guides",
+    "guides_desc": "Our certified guides bring decades of local expertise, weaving together history, culture and insider access unavailable to ordinary tourists.",
+    "vehicles_title": "Premium Vehicles",
+    "vehicles_desc": "Travel in uncompromising comfort aboard our immaculate fleet — from executive sedans to custom Mercedes Sprinters, each meticulously appointed."
+  },
+  "builder": {
+    "headline": "Compose Your Perfect Day",
+    "subline": "Drag, arrange and personalise — then receive your bespoke private quote instantly.",
+    "cta": "Open Experience Builder"
+  },
+  "trust": {
+    "tripadvisor": "4.9 on TripAdvisor",
+    "google": "5.0 Google Rating",
+    "reviews": "reviews",
+    "certified": "Tourism Certified",
+    "insured": "Fully Insured"
+  },
+  "comparison": {
+    "headline": "How We Compare",
+    "subline": "See why MaxTours is the premier choice for private luxury tours in Toronto and Niagara Falls.",
+    "our_advantage": "Our Advantage"
+  },
+  "footer": {
+    "tagline": "Toronto's Premier Private Tour Operator",
+    "rights": "All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  }
+}
